@@ -17,49 +17,42 @@ from home_automation_service.services.netatmo import NetatmoService
 
 
 def format_temperature(temp):
-    """Format temperature with proper unit"""
     if temp is not None:
         return f"{temp}°C"
     return "N/A"
 
 
 def format_humidity(humidity):
-    """Format humidity with proper unit"""
     if humidity is not None:
         return f"{humidity}%"
     return "N/A"
 
 
 def format_pressure(pressure):
-    """Format pressure with proper unit"""
     if pressure is not None:
         return f"{pressure} hPa"
     return "N/A"
 
 
 def format_co2(co2):
-    """Format CO2 with proper unit"""
     if co2 is not None:
         return f"{co2} ppm"
     return "N/A"
 
 
 def format_noise(noise):
-    """Format noise with proper unit"""
     if noise is not None:
         return f"{noise} dB"
     return "N/A"
 
 
 def format_wind_strength(wind_strength):
-    """Format wind strength with proper unit"""
     if wind_strength is not None:
         return f"{wind_strength} km/h"
     return "N/A"
 
 
 def format_wind_angle(wind_angle):
-    """Format wind angle with direction"""
     if wind_angle is not None:
         directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
                      "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
@@ -69,14 +62,12 @@ def format_wind_angle(wind_angle):
 
 
 def format_rain(rain):
-    """Format rain with proper unit"""
     if rain is not None:
         return f"{rain} mm"
     return "N/A"
 
 
 def display_outdoor_weather(data, verbose=False):
-    """Display outdoor weather data including wind, rain, temperature, and pressure"""
     print(f"\n🌤️  Outdoor Weather Data")
     print("=" * 60)
     
@@ -129,9 +120,8 @@ def display_outdoor_weather(data, verbose=False):
 
 
 def display_current_weather(data, verbose=False):
-    """Display current weather data in a formatted way"""
     if not data.get("current"):
-        print("❌ No current weather data available")
+        print("No current weather data available")
         return
     
     current = data["current"]
@@ -178,16 +168,15 @@ def display_current_weather(data, verbose=False):
 
 
 def display_historical_data(data, verbose=False):
-    """Display historical weather data"""
     if not data.get("historical"):
-        print("❌ No historical data available")
+        print("No historical data available")
         return
     
     historical = data["historical"]
     body = historical.get("body", [])
     
     if not body:
-        print("❌ No historical measurements found")
+        print("No historical measurements found")
         return
     
     print(f"\n📈 Historical Data for Today")
@@ -213,7 +202,6 @@ def display_historical_data(data, verbose=False):
 
 
 def main():
-    """Main CLI function"""
     parser = argparse.ArgumentParser(description="Netatmo Weather Station CLI")
     parser.add_argument("--current", action="store_true", help="Show current weather data")
     parser.add_argument("--historical", action="store_true", help="Show historical data for today")
@@ -245,7 +233,7 @@ def main():
             missing_vars.append(var)
     
     if missing_vars:
-        print(f"❌ Missing required environment variables: {', '.join(missing_vars)}")
+        print(f"Missing required environment variables: {', '.join(missing_vars)}")
         print("Please create a .env file with your Netatmo credentials.")
         print("See config.env.example for reference.")
         sys.exit(1)
@@ -254,12 +242,12 @@ def main():
     try:
         netatmo = NetatmoService()
     except Exception as e:
-        print(f"❌ Failed to initialize NetatmoService: {e}")
+        print(f"Failed to initialize NetatmoService: {e}")
         sys.exit(1)
     
     # Authenticate
     if not netatmo.authenticate():
-        print("❌ Authentication failed. Please check your Netatmo credentials.")
+        print("Authentication failed. Please check your Netatmo credentials.")
         sys.exit(1)
     
     # Get data based on requested type
@@ -267,19 +255,19 @@ def main():
         try:
             data = netatmo.get_outdoor_weather_data()
             if data.get("error"):
-                print(f"❌ Error retrieving outdoor data: {data['error']}")
+                print(f"Error retrieving outdoor data: {data['error']}")
                 sys.exit(1)
         except Exception as e:
-            print(f"❌ Error retrieving outdoor data: {e}")
+            print(f"Error retrieving outdoor data: {e}")
             sys.exit(1)
     else:
         try:
             data = netatmo.get_current_day_data()
             if data.get("error"):
-                print(f"❌ Error retrieving data: {data['error']}")
+                print(f"Error retrieving data: {data['error']}")
                 sys.exit(1)
         except Exception as e:
-            print(f"❌ Error retrieving data: {e}")
+            print(f"Error retrieving data: {e}")
             sys.exit(1)
     
     # Output data
