@@ -10,7 +10,6 @@ A Python-based service for retrieving current and historical weather data from N
 - **Multi-module Support**: Handles main station and additional modules (indoor, outdoor, rain gauge, wind gauge, etc.)
 - **Automatic Authentication**: Handles Netatmo API token refresh automatically
 - **RESTful API**: Clean HTTP endpoints with JSON responses
-- **Swagger Documentation**: Interactive API documentation at `/api/docs`
 
 ## Prerequisites
 
